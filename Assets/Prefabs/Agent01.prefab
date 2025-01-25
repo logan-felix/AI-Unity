@@ -128,8 +128,8 @@ MonoBehaviour:
   movement: {fileID: 4157240117201033543}
   data: {fileID: 11400000, guid: 0f5eadb0011ef514c952d67bea796fb4, type: 2}
   seekPerception: {fileID: 0}
-  fleePerception: {fileID: 8210823030508788482}
-  flockPerception: {fileID: 0}
+  fleePerception: {fileID: 0}
+  flockPerception: {fileID: 8173488836131239265}
 --- !u!114 &8210823030508788482
 MonoBehaviour:
   m_ObjectHideFlags: 0

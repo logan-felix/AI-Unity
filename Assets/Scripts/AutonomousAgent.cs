@@ -1,4 +1,6 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem.Utilities;
 
 public class AutonomousAgent : AIAgent
 {
@@ -14,7 +16,7 @@ public class AutonomousAgent : AIAgent
     private void Update()
     {
         //movement.ApplyForce(Vector3.forward * 10);
-        float size = 20;
+        float size = 15;
         transform.position = Utilities.Wrap(transform.position, new Vector3(-size, -size, -size), new Vector3(size, size, size));
 
         //Debug.DrawRay(transform.position, transform.forward * seekPerception.maxDistance, Color.yellow);
@@ -96,12 +98,36 @@ public class AutonomousAgent : AIAgent
 
     private Vector3 Separation(GameObject[] neighbors, float radius)
     {
-        return Vector3.zero;
+        Vector3 separation = Vector3.zero;
+        foreach (var neighbor in neighbors)
+        {
+            Vector3 direction = transform.position - neighbor.transform.position;
+            float distance = direction.magnitude;
+            if (distance < radius)
+            {
+                separation += direction / (distance * distance);
+            }
+        }
+
+        Vector3 force = GetSteeringForce(separation);
+
+        return force;
     }
 
     private Vector3 Alignment(GameObject[] neighbors)
     {
-        return Vector3.zero;
+        Vector3 velocities = Vector3.zero;
+
+        foreach (var neighbor in neighbors)
+        {
+            AutonomousAgent neighborAgent = neighbor.gameObject.GetComponent<AutonomousAgent>();
+            velocities += neighborAgent.movement.Velocity;
+        }
+
+        Vector3 averageVelocity = velocities / neighbors.Length;
+        Vector3 force = GetSteeringForce(averageVelocity);
+
+        return force;
     }
 
     private Vector3 Seek(GameObject go)
