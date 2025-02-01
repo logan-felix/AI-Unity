@@ -10,13 +10,14 @@ public class AutonomousAgent : AIAgent
     public Perception seekPerception;
     public Perception fleePerception;
     public Perception flockPerception;
+    public Perception obstaclePerception;
 
     float angle;
 
     private void Update()
     {
         //movement.ApplyForce(Vector3.forward * 10);
-        float size = 15;
+        float size = 20;
         transform.position = Utilities.Wrap(transform.position, new Vector3(-size, -size, -size), new Vector3(size, size, size));
 
         //Debug.DrawRay(transform.position, transform.forward * seekPerception.maxDistance, Color.yellow);
@@ -47,6 +48,17 @@ public class AutonomousAgent : AIAgent
             }
         }
 
+        // OBSTACLE
+        if (obstaclePerception != null && obstaclePerception.CheckDirection(Vector3.forward))
+        {
+            Vector3 direction = Vector3.zero;
+            if (obstaclePerception.GetOpenDirection(ref direction))
+            {
+                Debug.DrawRay(transform.position, direction * 5, Color.red, 0.2f);
+                movement.ApplyForce(GetSteeringForce(direction) * data.obstacleWeight);
+            }
+        }
+
         // FLOCK
         if (flockPerception != null)
         {
@@ -74,11 +86,12 @@ public class AutonomousAgent : AIAgent
         {
             transform.rotation = Quaternion.LookRotation(movement.Direction);
         }
-        //foreach (var go in gameObjects)
-        //{
-        //    Debug.DrawLine(transform.position, go.transform.position, Color.red);
-        //}
     }
+    //foreach (var go in gameObjects)
+    //{
+    //    Debug.DrawLine(transform.position, go.transform.position, Color.red);
+    //}
+
 
     private Vector3 Cohesion(GameObject[] neighbors)
     {
@@ -120,8 +133,7 @@ public class AutonomousAgent : AIAgent
 
         foreach (var neighbor in neighbors)
         {
-            AutonomousAgent neighborAgent = neighbor.gameObject.GetComponent<AutonomousAgent>();
-            velocities += neighborAgent.movement.Velocity;
+            velocities += neighbor.gameObject.GetComponent<AutonomousAgent>().movement.Velocity;
         }
 
         Vector3 averageVelocity = velocities / neighbors.Length;

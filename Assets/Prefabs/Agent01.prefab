@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 432213414745957752}
   - component: {fileID: 8210823030508788482}
   - component: {fileID: 8173488836131239265}
+  - component: {fileID: 2132864120712125009}
   - component: {fileID: 4157240117201033543}
   m_Layer: 0
   m_Name: Agent01
@@ -130,6 +131,7 @@ MonoBehaviour:
   seekPerception: {fileID: 0}
   fleePerception: {fileID: 0}
   flockPerception: {fileID: 8173488836131239265}
+  obstaclePerception: {fileID: 2132864120712125009}
 --- !u!114 &8210823030508788482
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,9 +144,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dbe653fe2503164a94ac017462deba6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  description: Seek/Flee Agent 02
   tagName: Agent02
   maxDistance: 5
   maxAngle: 180
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!114 &8173488836131239265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,9 +163,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dbe653fe2503164a94ac017462deba6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  description: Seek/Flock Agent01
   tagName: Agent01
   maxDistance: 5
   maxAngle: 180
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!114 &2132864120712125009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6338593116319259118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f44157722a6c6b4488cb08645ceb6125, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: Obstacle
+  tagName: 
+  maxDistance: 6
+  maxAngle: 120
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  numRaycast: 8
 --- !u!114 &4157240117201033543
 MonoBehaviour:
   m_ObjectHideFlags: 0
