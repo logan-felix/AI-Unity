@@ -8,7 +8,7 @@ public class Waypoint : MonoBehaviour
     {
         if (other.gameObject.TryGetComponent<NavAgent>(out NavAgent agent))
         {
-            agent.waypoint = waypoints[Random.Range(0, waypoints.Length)];
+            //agent.waypoint = waypoints[Random.Range(0, waypoints.Length)];
         }
     }
 }
